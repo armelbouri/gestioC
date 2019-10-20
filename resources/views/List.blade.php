@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="page-header clearfix">
                 <h2 class="pull-left">Liste des Contacts</h2>
-                <a href='{{route('ajou')}}' class="btn btn-success pull-right">Ajout Contact</a>
+                <a href='{{route('ajouter_contact')}}' class="btn btn-success pull-right">Ajout Contact</a>
             </div>
 
             <table class='table table-bordered table-striped'>
@@ -36,7 +36,7 @@
                         <td>{{$contact->naissance}}</td>
                         <td>
                             <a href='{{route('detail',$contact->id)}}' title='detail' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span>detail</a>
-                            <a href='' title='editer' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'>editer</span></a>
+                            <a href='{{route('contact_edit',$contact->id)}}' title='editer' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'>editer</span></a>
                             <a href='{{route('suppression',$contact->id)}}' title='suppression' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span>supprimer</a>
                         </td>
                 @endforeach

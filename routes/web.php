@@ -19,13 +19,22 @@ Route::get('contact/detail/{id}', [
 ]);
 Route::get('contact/{id}', [
     'as'=> 'suppression',
-    'uses' => 'ContactController@destroy'
+    'uses' => 'ContactController@destroy',
+    'middleware' => 'auth',
 ]);
 Route::match(['get','post'],'contact/ajouter', [
-    'as'=> 'ajouter',
+    'as'=> 'ajouter_contact',
     'uses' => 'ContactController@create',
+    'middleware' => 'auth',
 ]);
-Route::get('contact/ajoute', [
-    'as'=> 'ajou',
-    'uses' => 'ContactController@ajout',
+Route::match(['get','post'],'contact/edit/{id}', [
+    'as'=> 'contact_edit',
+    'uses' => 'ContactController@edit',
+    'middleware' => 'auth'
 ]);
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

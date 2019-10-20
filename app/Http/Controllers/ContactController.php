@@ -21,7 +21,9 @@ class ContactController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function create(Request $request)
     {
@@ -52,11 +54,8 @@ class ContactController extends Controller
         }
 
     }
-    public function ajout()
-    {
-        return view('ajouter');
 
-    }
+
 
 
 
@@ -88,15 +87,41 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $where = array('id' => $id);
-        $contact= Contact::where($where)->first();
+        $contact = Contact::where('id','=', $id)->first();
+        if($request->isMethod('post')) {
+            $this->validate($request,
+                [
+                    'nom' => 'required',
+                    'prenom' => 'required'
+                ],
+                [
+                    'nom.required'=>'Vous devez renseigner un nom',
+                    'prenom.required'=>'Vous devez renseigner un prenom'
+                ]);
+            $contact = new Contact();
+            $contact->nom = $request->input('nom');
+            $contact->prenom = $request->input('prenom');
+            $contact->civilite = $request->input('civilite');
+            $contact->telephone = $request->input('telephone');
+            $contact->email = $request->input('email');
+            $contact->societe = $request->input('societe');
+            $contact->ville = $request->input('ville');
+            $contact->naissance = $request->input('naissance');
+            $contact->save();
+            return redirect::to('');
+        }
+        else{
+            return view('editer')->with('contact',$contact);
+        }
 
-        return view('contacts.edit', $contact);
+
     }
 
     /**
